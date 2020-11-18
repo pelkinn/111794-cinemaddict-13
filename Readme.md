@@ -1,7 +1,7 @@
 # Проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Александр Перепелкин](https://up.htmlacademy.ru/ecmascript/13/user/111794).
-* Наставник: `Неизвестно`.
+* Наставник: `Олег Глущенко`.
 
 ---
 
