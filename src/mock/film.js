@@ -63,6 +63,10 @@ export const generateComments = () => {
   return FILM_COMMENTS.slice(0, randomIndex);
 };
 
+export const getRandomBool = () => {
+  return !!getRandomInteger();
+};
+
 export const generateFilm = () => {
   return {
     title: generateValue(FILM_TITLES),
@@ -81,8 +85,8 @@ export const generateFilm = () => {
     country: generateValue(FILM_COUNTRIES),
     description: generateValue(FILM_DESCRIPTIONS),
     ageRating: getRandomFloat(0, 18),
-    inQueueForViewing: !!getRandomInteger(),
-    isWatch: !!getRandomInteger(),
-    favorite: !!getRandomInteger()
+    inQueueForViewing: getRandomBool(),
+    isWatch: getRandomBool(),
+    favorite: getRandomBool()
   };
 };

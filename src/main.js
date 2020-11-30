@@ -7,6 +7,7 @@ import {createFilmTemplate} from './view/film.js';
 import {createButtonLoadMoreTemplate} from './view/button-load-more.js';
 import {createPopupFilmDetailsTemplate} from './view/popup-film-details.js';
 import {generateFilm} from './mock/film.js';
+import {RANK_USER} from './mock/const';
 
 const FILMS_COUNT = 20;
 const FILMS_ITERATOR = 5;
@@ -23,9 +24,19 @@ const render = (container, template, place) => {
 const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
 const siteFooterElement = document.querySelector(`.footer`);
-
+const getRank = (count) => {
+  let i = ``;
+  if (count >= 1 && count <= 10) {
+    i = 0;
+  } else if (count >= 11 && count <= 20) {
+    i = 1;
+  } else if (count > 20) {
+    i = 2;
+  }
+  return RANK_USER[i];
+};
 if (filmsWatchingCount) {
-  render(siteHeaderElement, createRankUserTemplate(filmsWatchingCount), `beforeend`);
+  render(siteHeaderElement, createRankUserTemplate(getRank(filmsWatchingCount)), `beforeend`);
 }
 render(siteMainElement, createGroupMenuTemplate(films), `beforeend`);
 render(siteMainElement, createFilterTemplate(), `beforeend`);
