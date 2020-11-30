@@ -120,9 +120,3 @@ export const FILM_COMMENTS = [
     emoji: `puke.png`
   }
 ];
-
-export const RANK_USER = [
-  `novice`,
-  `fan`,
-  `movie buff`
-];
