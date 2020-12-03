@@ -90,7 +90,7 @@ buttonLoadMore.getElement().addEventListener(`click`, () => {
   if (renderFilmCount < FILMS_COUNT) {
     let nextFilms = films.slice(renderFilmCount, renderFilmCount + FILMS_ITERATOR);
     for (let i = 0; i < nextFilms.length; i++) {
-      render(filmList.getElement(), new Film(nextFilms[i]).getElement(), RenderPosition.BEFOREEND);
+      renderFilm(filmList.getElement(), nextFilms[i]);
     }
     renderFilmCount += FILMS_ITERATOR;
     if (renderFilmCount >= FILMS_COUNT) {
