@@ -1,16 +1,16 @@
 import {createElement} from '../utils/utils';
 
-const createButtonLoadMoreTemplate = () => {
-  return `<button class="films-list__show-more">Show more</button>`;
+const createBoardMainTemplate = () => {
+  return `<div class="films-list__container"></div>`;
 };
 
-export default class ButtonLoadMore {
+export default class FilmList {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return createButtonLoadMoreTemplate();
+    return createBoardMainTemplate();
   }
 
   getElement() {
