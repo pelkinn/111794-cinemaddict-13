@@ -7,11 +7,12 @@ import FilmList from './view/film-list.js';
 import Film from './view/film.js';
 import ButtonLoadMore from './view/button-load-more.js';
 import PopupFilmDetails from './view/popup-film-details.js';
+import NoFilm from './view/no-film.js';
 import {generateFilm} from './mock/film.js';
 import {render} from './utils/utils.js';
 import {RenderPosition} from './utils/const.js';
 
-const FILMS_COUNT = 20;
+const FILMS_COUNT = 4;
 const FILMS_ITERATOR = 5;
 let renderFilmCount = FILMS_ITERATOR;
 
@@ -51,7 +52,6 @@ const renderPopup = (film) => {
 
 const renderFilm = (filmListElement, film) => {
   const filmComponent = new Film(film);
-
   render(filmListElement, filmComponent.getElement(), RenderPosition.BEFOREEND);
 
   const elementsClickedOpenPopup = [
@@ -82,21 +82,25 @@ render(boardMain.getElement(), filmList.getElement(), RenderPosition.BEFOREEND);
 for (let i = 0; i < films.slice(0, FILMS_ITERATOR).length; i++) {
   renderFilm(filmList.getElement(), films[i]);
 }
-const buttonLoadMore = new ButtonLoadMore();
-render(boardMain.getElement(), buttonLoadMore.getElement(), RenderPosition.BEFOREEND);
+
+if (films.length > FILMS_ITERATOR) {
+  const buttonLoadMore = new ButtonLoadMore();
+  render(boardMain.getElement(), buttonLoadMore.getElement(), RenderPosition.BEFOREEND);
 
 
-buttonLoadMore.getElement().addEventListener(`click`, () => {
-  if (renderFilmCount < FILMS_COUNT) {
-    let nextFilms = films.slice(renderFilmCount, renderFilmCount + FILMS_ITERATOR);
-    for (let i = 0; i < nextFilms.length; i++) {
-      renderFilm(filmList.getElement(), nextFilms[i]);
+  buttonLoadMore.getElement().addEventListener(`click`, () => {
+    if (renderFilmCount < FILMS_COUNT) {
+      let nextFilms = films.slice(renderFilmCount, renderFilmCount + FILMS_ITERATOR);
+      for (let i = 0; i < nextFilms.length; i++) {
+        renderFilm(filmList.getElement(), nextFilms[i]);
+      }
+      renderFilmCount += FILMS_ITERATOR;
+      if (renderFilmCount >= FILMS_COUNT) {
+        buttonLoadMore.getElement().remove();
+        buttonLoadMore.removeElement();
+      }
     }
-    renderFilmCount += FILMS_ITERATOR;
-    if (renderFilmCount >= FILMS_COUNT) {
-      buttonLoadMore.getElement().remove();
-      buttonLoadMore.removeElement();
-    }
-  }
-});
+  });
+}
+
 
