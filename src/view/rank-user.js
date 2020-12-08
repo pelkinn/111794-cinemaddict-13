@@ -1,5 +1,5 @@
 import {RankUserList} from '../utils/const.js';
-import {createElement} from '../utils/utils';
+import AbstractView from './abstract';
 
 const getRank = (count) => {
   let i = ``;
@@ -20,25 +20,13 @@ const createRankUserTemplate = (count) => {
     </section>`;
 };
 
-export default class RankUser {
+export default class RankUser extends AbstractView {
   constructor(count) {
-    this._element = null;
+    super();
     this._countFilms = count;
   }
 
   getTemplate() {
     return createRankUserTemplate(this._countFilms);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    // console.log(this._element);
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

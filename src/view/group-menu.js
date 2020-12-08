@@ -1,4 +1,4 @@
-import {createElement} from '../utils/utils';
+import AbstractView from './abstract';
 
 const getCount = (items, field) => {
   return items.filter((item) => item[field]).length;
@@ -16,25 +16,13 @@ const createGroupMenuTemplate = (data) => {
     </nav>`;
 };
 
-export default class GroupMenu {
+export default class GroupMenu extends AbstractView {
   constructor(film) {
-    this._element = null;
+    super();
     this._film = film;
   }
 
   getTemplate() {
     return createGroupMenuTemplate(this._film);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

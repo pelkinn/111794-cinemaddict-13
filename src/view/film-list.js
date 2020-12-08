@@ -1,27 +1,11 @@
-import {createElement} from '../utils/utils';
+import AbstractView from './abstract';
 
 const createBoardMainTemplate = () => {
   return `<div class="films-list__container"></div>`;
 };
 
-export default class FilmList {
-  constructor() {
-    this._element = null;
-  }
-
+export default class FilmList extends AbstractView {
   getTemplate() {
     return createBoardMainTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
