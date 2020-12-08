@@ -1,4 +1,4 @@
-import {createElement} from '../utils/utils';
+import AbstractView from "./abstract.js";
 
 const getStringValues = (items) => {
   return items.join(`, `);
@@ -25,25 +25,32 @@ const createFilmTemplate = ({title, poster, snippet, rating, yearCreated, durati
 };
 
 
-export default class Film {
+export default class Film extends AbstractView {
   constructor(film) {
-    this._element = null;
+    super();
     this._film = film;
+    this._clickHandler = this._clickHandler.bind(this);
+  }
+
+  _clickHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
   }
 
   getTemplate() {
     return createFilmTemplate(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
+  setOpenPopupClickHandler(callback) {
+    this._callback.click = callback;
+    const elementsClickedOpenPopup = [
+      this.getElement().querySelector(`.film-card__title`),
+      this.getElement().querySelector(`.film-card__poster`),
+      this.getElement().querySelector(`.film-card__comments`)
+    ];
 
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+    elementsClickedOpenPopup.forEach((item) => {
+      item.addEventListener(`click`, this._clickHandler);
+    });
   }
 }

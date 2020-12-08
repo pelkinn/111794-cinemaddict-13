@@ -7,11 +7,11 @@ import FilmList from './view/film-list.js';
 import Film from './view/film.js';
 import ButtonLoadMore from './view/button-load-more.js';
 import PopupFilmDetails from './view/popup-film-details.js';
+import NoFilm from './view/no-film.js';
 import {generateFilm} from './mock/film.js';
-import {render} from './utils/utils.js';
-import {RenderPosition} from './utils/const.js';
+import {render, RenderPosition, remove} from './utils/render.js';
 
-const FILMS_COUNT = 20;
+const FILMS_COUNT = 25;
 const FILMS_ITERATOR = 5;
 let renderFilmCount = FILMS_ITERATOR;
 
@@ -28,8 +28,7 @@ const renderPopup = (film) => {
   const body = document.getElementsByTagName(`body`)[0];
   body.classList.add(`hide-overflow`);
   const removePopup = () => {
-    popupComponent.getElement().remove();
-    popupComponent.removeElement();
+    remove(popupComponent);
     body.classList.remove(`hide-overflow`);
   };
 
@@ -42,7 +41,7 @@ const renderPopup = (film) => {
   };
   document.addEventListener(`keydown`, onEscKeyDown);
 
-  popupComponent.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, () => {
+  popupComponent.setClosePopupClickHandler(() => {
     removePopup();
   });
 
@@ -51,52 +50,46 @@ const renderPopup = (film) => {
 
 const renderFilm = (filmListElement, film) => {
   const filmComponent = new Film(film);
-
-  render(filmListElement, filmComponent.getElement(), RenderPosition.BEFOREEND);
-
-  const elementsClickedOpenPopup = [
-    filmComponent.getElement().querySelector(`.film-card__title`),
-    filmComponent.getElement().querySelector(`.film-card__poster`),
-    filmComponent.getElement().querySelector(`.film-card__comments`)
-  ];
-  elementsClickedOpenPopup.forEach((item) => {
-    item.addEventListener(`click`, () => {
-      render(siteFooterElement, renderPopup(film).getElement(), RenderPosition.AFTERBEGIN);
-    });
+  render(filmListElement, filmComponent, RenderPosition.BEFOREEND);
+  filmComponent.setOpenPopupClickHandler(() => {
+    render(siteFooterElement, renderPopup(film), RenderPosition.AFTERBEGIN);
   });
 };
 
 if (filmsWatchingCount) {
-  render(siteHeaderElement, new RankUser(filmsWatchingCount).getElement(), RenderPosition.BEFOREEND);
+  render(siteHeaderElement, new RankUser(filmsWatchingCount), RenderPosition.BEFOREEND);
 }
 const board = new Board();
-render(siteMainElement, new GroupMenu(films).getElement(), RenderPosition.BEFOREEND);
-render(siteMainElement, new SortingMenu().getElement(), RenderPosition.BEFOREEND);
-render(siteMainElement, board.getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, new GroupMenu(films), RenderPosition.BEFOREEND);
+render(siteMainElement, new SortingMenu(), RenderPosition.BEFOREEND);
+render(siteMainElement, board, RenderPosition.BEFOREEND);
 
 const boardMain = new BoardMain();
 const filmList = new FilmList();
-render(board.getElement(), boardMain.getElement(), RenderPosition.BEFOREEND);
-render(boardMain.getElement(), filmList.getElement(), RenderPosition.BEFOREEND);
+render(board, boardMain, RenderPosition.BEFOREEND);
+render(boardMain, filmList, RenderPosition.BEFOREEND);
 
 for (let i = 0; i < films.slice(0, FILMS_ITERATOR).length; i++) {
-  renderFilm(filmList.getElement(), films[i]);
+  renderFilm(filmList, films[i]);
 }
-const buttonLoadMore = new ButtonLoadMore();
-render(boardMain.getElement(), buttonLoadMore.getElement(), RenderPosition.BEFOREEND);
+
+if (films.length > FILMS_ITERATOR) {
+  const buttonLoadMore = new ButtonLoadMore();
+  render(boardMain, buttonLoadMore, RenderPosition.BEFOREEND);
 
 
-buttonLoadMore.getElement().addEventListener(`click`, () => {
-  if (renderFilmCount < FILMS_COUNT) {
-    let nextFilms = films.slice(renderFilmCount, renderFilmCount + FILMS_ITERATOR);
-    for (let i = 0; i < nextFilms.length; i++) {
-      renderFilm(filmList.getElement(), nextFilms[i]);
+  buttonLoadMore.setClickHandler(() => {
+    if (renderFilmCount < FILMS_COUNT) {
+      let nextFilms = films.slice(renderFilmCount, renderFilmCount + FILMS_ITERATOR);
+      for (let i = 0; i < nextFilms.length; i++) {
+        renderFilm(filmList, nextFilms[i]);
+      }
+      renderFilmCount += FILMS_ITERATOR;
+      if (renderFilmCount >= FILMS_COUNT) {
+        remove(buttonLoadMore);
+      }
     }
-    renderFilmCount += FILMS_ITERATOR;
-    if (renderFilmCount >= FILMS_COUNT) {
-      buttonLoadMore.getElement().remove();
-      buttonLoadMore.removeElement();
-    }
-  }
-});
+  });
+}
+
 
