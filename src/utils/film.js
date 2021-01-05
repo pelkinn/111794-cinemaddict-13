@@ -20,3 +20,7 @@ export const generateComments = (data) => {
   const randomIndex = getRandomInteger(0, data.length - 1);
   return data.slice(0, randomIndex);
 };
+
+export const generateId = () => {
+  return Date.now() + parseInt(Math.random() * 10000, 10);
+};

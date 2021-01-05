@@ -10,5 +10,10 @@ module.exports = {
   devServer: {
     contentBase: path.resolve(__dirname, 'public'),
     watchContentBase: true,
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src/')
+    }
   }
 };

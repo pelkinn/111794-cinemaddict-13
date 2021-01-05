@@ -29,20 +29,38 @@ export default class Film extends AbstractView {
   constructor(film) {
     super();
     this._film = film;
-    this._clickHandler = this._clickHandler.bind(this);
-  }
-
-  _clickHandler(evt) {
-    evt.preventDefault();
-    this._callback.click();
+    this._openPopupClickHandler = this._openPopupClickHandler.bind(this);
+    this._addToWatchlistClickHandler = this._addToWatchlistClickHandler.bind(this);
+    this._markAsViewedClickHandler = this._markAsViewedClickHandler.bind(this);
+    this._addToFavoritesClickHandler = this._addToFavoritesClickHandler.bind(this);
   }
 
   getTemplate() {
     return createFilmTemplate(this._film);
   }
 
+  _openPopupClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.openPopupClick();
+  }
+
+  _addToWatchlistClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.addToWatchlistClick();
+  }
+
+  _markAsViewedClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.markAsViewedClick();
+  }
+
+  _addToFavoritesClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.addToFavoritesClick();
+  }
+
   setOpenPopupClickHandler(callback) {
-    this._callback.click = callback;
+    this._callback.openPopupClick = callback;
     const elementsClickedOpenPopup = [
       this.getElement().querySelector(`.film-card__title`),
       this.getElement().querySelector(`.film-card__poster`),
@@ -50,7 +68,22 @@ export default class Film extends AbstractView {
     ];
 
     elementsClickedOpenPopup.forEach((item) => {
-      item.addEventListener(`click`, this._clickHandler);
+      item.addEventListener(`click`, this._openPopupClickHandler);
     });
+  }
+
+  setAddToWatchlistClickHandler(callback) {
+    this._callback.addToWatchlistClick = callback;
+    this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`).addEventListener(`click`, this._addToWatchlistClickHandler);
+  }
+
+  setMarkAsViewedClickHandler(callback) {
+    this._callback.markAsViewedClick = callback;
+    this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`).addEventListener(`click`, this._markAsViewedClickHandler);
+  }
+
+  setAddToFavoritesClickHandler(callback) {
+    this._callback.addToFavoritesClick = callback;
+    this.getElement().querySelector(`.film-card__controls-item--favorite`).addEventListener(`click`, this._addToFavoritesClickHandler);
   }
 }

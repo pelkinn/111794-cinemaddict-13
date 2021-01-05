@@ -1,6 +1,6 @@
 
-import {getRandomInteger, getRandomFloat, generateUniqueValues, generateValue, getRandomBool} from '../utils/common.js';
-import {generateDuration, generateDate, generateComments} from '../utils/film.js';
+import {getRandomInteger, getRandomFloat, generateUniqueValues, generateValue, getRandomBool} from '@/utils/common.js';
+import {generateDuration, generateDate, generateComments, generateId} from '@/utils/film.js';
 import {
   FILM_TITLES,
   FILM_SNIPPETS,
@@ -16,6 +16,7 @@ import {
 
 export const generateFilm = () => {
   return {
+    id: generateId(),
     title: generateValue(FILM_TITLES),
     poster: generateValue(FILM_POSTERS),
     snippet: generateValue(FILM_SNIPPETS),

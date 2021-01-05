@@ -153,20 +153,53 @@ export default class PopupFilmDetails extends AbstractView {
   constructor(film) {
     super();
     this._film = film;
-    this._clickHandler = this._clickHandler.bind(this);
+    this._closePopupClickHandler = this._closePopupClickHandler.bind(this);
+    this._addToWatchlistClickHandler = this._addToWatchlistClickHandler.bind(this);
+    this._markAsViewedClickHandler = this._markAsViewedClickHandler.bind(this);
+    this._addToFavoritesClickHandler = this._addToFavoritesClickHandler.bind(this);
   }
 
   getTemplate() {
     return createPopupFilmDetailsTemplate(this._film);
   }
 
-  _clickHandler(evt) {
+  _closePopupClickHandler(evt) {
     evt.preventDefault();
-    this._callback.click();
+    this._callback.closePopup();
+  }
+
+  _addToWatchlistClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.addToWatchlistClick();
+  }
+
+  _markAsViewedClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.markAsViewedClick();
+  }
+
+  _addToFavoritesClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.addToFavoritesClick();
   }
 
   setClosePopupClickHandler(callback) {
-    this._callback.click = callback;
-    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._clickHandler);
+    this._callback.closePopup = callback;
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closePopupClickHandler);
+  }
+
+  setAddToWatchlistClickHandler(callback) {
+    this._callback.addToWatchlistClick = callback;
+    this.getElement().querySelector(`#watchlist`).addEventListener(`input`, this._addToWatchlistClickHandler);
+  }
+
+  setMarkAsViewedClickHandler(callback) {
+    this._callback.markAsViewedClick = callback;
+    this.getElement().querySelector(`#watched`).addEventListener(`input`, this._markAsViewedClickHandler);
+  }
+
+  setAddToFavoritesClickHandler(callback) {
+    this._callback.addToFavoritesClick = callback;
+    this.getElement().querySelector(`#favorite`).addEventListener(`input`, this._addToFavoritesClickHandler);
   }
 }
