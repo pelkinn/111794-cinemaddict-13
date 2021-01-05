@@ -24,3 +24,11 @@ export const generateComments = (data) => {
 export const generateId = () => {
   return Date.now() + parseInt(Math.random() * 10000, 10);
 };
+
+export const sortByDate = (a, b) => {
+  return b.yearCreated - a.yearCreated;
+};
+
+export const sortByRating = (a, b) => {
+  return b.rating - a.rating;
+};

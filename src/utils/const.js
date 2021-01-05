@@ -4,4 +4,10 @@ export const RankUserList = [
   `movie buff`
 ];
 
+export const SortType = {
+  DEFAULT: `default`,
+  DATE: `date`,
+  RATING: `rating`
+};
+
 
