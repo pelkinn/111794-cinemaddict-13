@@ -45,14 +45,13 @@ export default class Film {
       return;
     }
 
-    if (siteBody.contains(prevFilmComponent.getElement())) {
-      replace(this._filmComponent, prevFilmComponent);
+    if (this._mode === Mode.POPUP) {
+      this._addHandlerEvents();
     }
 
-    if (siteBody.contains(prevPopupFilmDetails.getElement())) {
-      replace(this._popupFilmDetailsComponent, prevPopupFilmDetails);
-      this._popupFilmDetailsComponent.setClosePopupClickHandler(this._closePopup);
-    }
+    replace(this._filmComponent, prevFilmComponent);
+    replace(this._popupFilmDetailsComponent, prevPopupFilmDetails);
+    this._popupFilmDetailsComponent.setClosePopupClickHandler(this._closePopup);
 
     remove(prevFilmComponent);
     remove(prevPopupFilmDetails);
@@ -69,15 +68,19 @@ export default class Film {
   }
 
   _openPopup() {
+    this._changeMode();
     render(siteBody, this._popupFilmDetailsComponent, RenderPosition.BEFOREEND);
+    this._addHandlerEvents();
+    siteBody.classList.add(`hide-overflow`);
+    document.addEventListener(`keydown`, this._escKeyDownHandler);
+    this._mode = Mode.POPUP;
+  }
+
+  _addHandlerEvents() {
     this._popupFilmDetailsComponent.setClosePopupClickHandler(this._closePopup);
     this._popupFilmDetailsComponent.setAddToWatchlistClickHandler(this._addToWatchlist);
     this._popupFilmDetailsComponent.setMarkAsViewedClickHandler(this._markAsViewed);
     this._popupFilmDetailsComponent.setAddToFavoritesClickHandler(this._addToFavorite);
-    siteBody.classList.add(`hide-overflow`);
-    document.addEventListener(`keydown`, this._escKeyDownHandler);
-    this._changeMode();
-    this._mode = Mode.POPUP;
   }
 
   _closePopup() {
