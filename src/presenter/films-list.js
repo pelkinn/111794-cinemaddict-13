@@ -5,7 +5,7 @@ import BoardMainView from '@/view/board-main.js';
 import FilmListView from '@/view/film-list.js';
 import ButtonLoadMoreView from '@/view/button-load-more.js';
 import NoFilmView from '@/view/no-film.js';
-import FilmPresenter from '@/presenter/Film.js';
+import FilmPresenter from '@/presenter/film.js';
 import {render, RenderPosition, remove} from '@/utils/render.js';
 import {updateItem} from '@/utils/common.js';
 import {SortType} from '@/utils/const';

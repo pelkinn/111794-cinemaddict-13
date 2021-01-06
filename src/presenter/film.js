@@ -60,7 +60,6 @@ export default class Film {
 
   destroy() {
     remove(this._filmComponent);
-    remove(this._popupFilmDetailsComponent);
   }
 
   resetView() {
@@ -80,7 +79,6 @@ export default class Film {
     this._changeMode();
     this._mode = Mode.POPUP;
   }
-
 
   _closePopup() {
     remove(this._popupFilmDetailsComponent);

@@ -1,6 +1,6 @@
-import RankUserPresenter from '@/presenter/RankUser.js';
+import RankUserPresenter from '@/presenter/rank-user.js';
 import {generateFilm} from '@/mock/film.js';
-import FilmsListPresenter from '@/presenter/FilmsList';
+import FilmsListPresenter from '@/presenter/films-list.js';
 
 
 const FILMS_COUNT = 25;

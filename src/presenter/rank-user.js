@@ -7,17 +7,15 @@ export default class RankUser {
   }
 
   init(films) {
-    this._filmsWatchingCount = 0;
     this._films = films;
-    this._getCountWatchedFilms();
+    this._filmsWatchingCount = this._getCountWatchedFilms();
     this._rankUserComponent = new RankUserView(this._filmsWatchingCount);
     if (this._filmsWatchingCount > 0) {
-
       render(this._container, this._rankUserComponent, RenderPosition.BEFOREEND);
     }
   }
 
   _getCountWatchedFilms() {
-    this._filmsWatchingCount = this._films.filter(({isWatch}) => isWatch).length;
+    return this._films.filter(({isWatch}) => isWatch).length;
   }
 }
